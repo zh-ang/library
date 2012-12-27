@@ -86,23 +86,9 @@ class Easy_Util {
     }
     /* }}} */
 
-    /* {{{ public static function forward($strUri = "")  */
-    public static function forward($strUri = "") {
-
-        Yaf_Application::app()->getDispatcher()->disableView();
-        header("Location: ".self::webroot($strUri));
-        exit;
-
-    }
-    /* }}} */
-
-    /* {{{ public static function redirect($strUri = "")  */
-    public static function redirect($strUri = "") {
-
-        Yaf_Application::app()->getDispatcher()->disableView();
-        header("Location: ".self::webroot($strUri));
-        exit;
-
+    /* {{{ public static function explain(Exception $e)  */
+    public static function explain(Exception $e) {
+        return $e->getMessage();
     }
     /* }}} */
 

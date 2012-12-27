@@ -16,13 +16,13 @@
 class Easy_Ajax {
 
     public $status=0;
-    public $return=NULL;
+    public $result=NULL;
     public $error=array();
 
     /* {{{ protected function __construct ($mixRet=NULL, $intStatus=0)  */
     protected function __construct ($mixRet=NULL, $intStatus=0) {
 
-        $this->return = $mixRet;
+        $this->result = $mixRet;
         $this->status = $intStatus;
 
     }
@@ -34,24 +34,6 @@ class Easy_Ajax {
     }
     /* }}} */
 
-    /* {{{ public static function prepare()  */
-    public static function prepare() {
-
-        $objReq = Yaf_Application::app()->getDispatcher()->getRequest();
-        if (YAF_ENVIRON != "dev" && !$objReq->isXmlHttpRequest()) {
-            if (headers_sent()) {
-                throw new Easy_Exception("Unacceptable ajax request");
-            } else {
-                header("Location: ".self::webroot());
-                exit;
-            }
-        }
-
-        Yaf_Application::app()->getDispatcher()->disableView();
-
-    }
-    /* }}} */
-
     /* {{{ public function status($intStatus)  */
     public function status($intStatus) {
         $this->status = $intStatus;
@@ -59,9 +41,10 @@ class Easy_Ajax {
     }
     /* }}} */
 
-    /* {{{ public function data($mixRet)  */
-    public function data($mixRet) {
-        $this->return = $mixRet;
+    /* {{{ public function result($mixRet)  */
+
+    public function result($mixRet) {
+        $this->result = $mixRet;
         return $this;
     }
     /* }}} */
@@ -79,14 +62,20 @@ class Easy_Ajax {
 
     /* {{{ public function toJson()  */
     public function toJson() {
+        return json_encode($this->toArray());
+    }
+    /* }}} */
+
+    /* {{{ public function toArray()  */
+    public function toArray() {
         $arrRet = (array)$this;
         if (empty($arrRet["error"])) {
             unset($arrRet["error"]);
         }
-        if (empty($arrRet["return"])) {
-            unset($arrRet["return"]);
+        if (empty($arrRet["result"])) {
+            unset($arrRet["result"]);
         }
-        return json_encode($arrRet);
+        return $arrRet;
     }
     /* }}} */
 

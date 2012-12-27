@@ -84,10 +84,8 @@ class Agent8_Configuration extends Agent8_Abstract {
     public function updateConnection(array $data) {
 
         $strBody = json_encode($data);
-
         $strRes = $this->_post($this->_getUrl(__FUNCTION__), $strBody);
-
-        return TRUE;
+        return json_encode($strRes, TRUE);
         
     }
     /* }}} */
@@ -160,8 +158,7 @@ class Agent8_Configuration extends Agent8_Abstract {
 
         $strBody = json_encode($data);
         $strRes = $this->_post($this->_getUrl(__FUNCTION__), $strBody);
-
-        return TRUE;
+        return json_encode($strRes, TRUE);
 
     }
     /* }}} */
@@ -235,8 +232,7 @@ class Agent8_Configuration extends Agent8_Abstract {
 
         $strBody = json_encode($data);
         $strRes = $this->_post($this->_getUrl(__FUNCTION__), $strBody);
-
-        return TRUE;
+        return json_encode($strRes, TRUE);
 
     }
     /* }}} */
@@ -311,8 +307,7 @@ class Agent8_Configuration extends Agent8_Abstract {
 
         $strBody = json_encode($data);
         $strRes = $this->_post($this->_getUrl(__FUNCTION__), $strBody);
-
-        return TRUE;
+        return json_encode($strRes, TRUE);
 
     }
     /* }}} */
@@ -427,8 +422,7 @@ class Agent8_Configuration extends Agent8_Abstract {
 
         $strBody = json_encode($data);
         $strRes = $this->_post($this->_getUrl(__FUNCTION__), $strBody);
-
-        return TRUE;
+        return json_encode($strRes, TRUE);
 
     }
     /* }}} */
@@ -438,7 +432,8 @@ class Agent8_Configuration extends Agent8_Abstract {
             $appVersion, array $titles, $subTitle, $deviceSensitive, $pushNtfMessage, $pushNtfEventName,
             $owner, $creator, $groupId, $displayName, $maxVisibleCount, $onDisplay, $displayOrder,
             $connections, $description, $weight, $defaultEnable, $needsPreferences, $screenTitle,
-            $reportName, $sourceList, $fbShareText, $twitterShareText, $timeSaved, $state, $markup
+            $reportName, $sourceList, $fbShareText, $twitterShareText, $timeSaved, $state, $markup,
+            $completeStateSubTitle, $scheduleStateSubTitle
             ) {
 
         return $this->updateDoDefinition(array(
@@ -472,6 +467,8 @@ class Agent8_Configuration extends Agent8_Abstract {
             "timeSaved"         => $timeSaved,
             "state"             => $state,
             "markup"            => $markup,
+            "completeStateSubTitle" => $completeStateSubTitle,
+            "scheduleStateSubTitle" => $scheduleStateSubTitle,
         ));
 
     }
@@ -507,10 +504,10 @@ class Agent8_Configuration extends Agent8_Abstract {
     }
     /* }}} */
 
-    /* {{{ public function getDoIdsForTrigger()  */
-    public function getDoIdsForTrigger() {
+    /* {{{ public function getDoIdsForTrigger($triggerId)  */
+    public function getDoIdsForTrigger($triggerId) {
 
-        $strRes = $this->_get($this->_getUrl(__FUNCTION__), array());
+        $strRes = $this->_get($this->_getUrl(__FUNCTION__), array("triggerId"=>$triggerId));
 
         return json_decode($strRes, TRUE);
         

@@ -62,6 +62,7 @@ class Agent8_Auth extends Agent8_Abstract {
                 $pushtoken="", $mobile="", $accessToken="", $fbEnabled="",
                 $firstName="", $lastName="", $fbAccessToken="", $fbExpirationDate="", $fbId="",
                 $birthday="", $verifyEmail="") {
+
         $arrData = array(
             "username" => $username,
             "password" => $password,
@@ -73,7 +74,7 @@ class Agent8_Auth extends Agent8_Abstract {
         $mobile && $arrData["mobile"] = $mobile;
         $accessToken && $arrData["accessToken"] = $accessToken;
         $fbEnabled && $arrData["fbEnabled"] = $fbEnabled;
-        $fistName && $arrData["fistName"] = $fistName;
+        $firstName && $arrData["firstName"] = $firstName;
         $lastName && $arrData["lastName"] = $lastName;
         $fbAccessToken && $arrData["fbAccessToken"] = $fbAccessToken;
         $fbExpirationDate && $arrData["fbExpirationDate"] = $fbExpirationDate;
@@ -82,6 +83,20 @@ class Agent8_Auth extends Agent8_Abstract {
         $verifyEmail && $arrData["verifyEmail"] = $verifyEmail;
         
         return $this->_post($this->_getUrl(__FUNCTION__), $arrData);
+
+    }
+    /* }}} */
+
+    /* {{{ public function logout($eat)  */
+    public function logout($eat) {
+
+        $arrData = array(
+            "eat" => $eat,
+        );
+        
+        $strBody = $this->_post($this->_getUrl(__FUNCTION__."?deviceId=doBuilder"), $arrData);
+
+        return TRUE;
 
     }
     /* }}} */

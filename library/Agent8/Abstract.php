@@ -13,30 +13,16 @@
 
 /* $Id$ */
 
-abstract class Agent8_Abstract {
+abstract class Agent8_Abstract extends Easy_Singleton {
 
     const GET   = "GET";
     const POST  = "POST";
 
+    const VERSION   = "1.0";
+
     protected static $_serviceUri = "";
-
-    protected static $_instance = NULL;
-
-    /* {{{ public static function getInstance() */
-    public static function getInstance() {
-
-        if (isset(self::$_instance)) {
-            if (self::$_instance instanceof self) {
-                return self::$_instance;
-            }
-        }
-
-        $obj = new self;
-        self::$_instance = $obj;
-        return $obj;
-
-    }
-    /* }}} */
+    protected static $_userAgent = NULL;
+    protected static $_userAgentStr = NULL;
 
     /* {{{ public static function setServiceUri($strPrefix)  */
     public static function setServiceUri($strPrefix) {
@@ -50,9 +36,71 @@ abstract class Agent8_Abstract {
     }
     /* }}} */
 
+    /* {{{ protected static function initUserAgent()  */
+    protected static function initUserAgent() {
+        self::$_userAgent = array(
+            "Agent8_Client" => self::VERSION,
+            "PHP" => PHP_VERSION,
+            "cURL" => ( ($arrCurlVer = curl_version()) ?  $arrCurlVer["version"] : "" ),
+        );
+    }
+    /* }}} */
+
+    /* {{{ public static function setUserAgent($key, $val="")  */
+    public static function setUserAgent($key, $val="") {
+        if (self::$_userAgent === NULL) {
+            self::initUserAgent();
+        }
+        if ($val === NULL) {
+            unset(self::$_userAgent[$key]);
+        } else {
+            self::$_userAgent[$key] = $val;
+        }
+        self::$_userAgentStr = NULL;
+    }
+    /* }}} */
+
+    /* {{{ public static function getUserAgent($key=NULL)  */
+    public static function getUserAgent($key=NULL) {
+        if (self::$_userAgent === NULL) {
+            self::initUserAgent();
+        } else {
+            if ($key === NULL) {
+                return self::$_userAgent;
+            } else {
+                return isset(self::$_userAgent[$key]) ? self::$_userAgent[$key] : NULL;
+            }
+        }
+    }
+    /* }}} */
+
+    /* {{{ protected static function getUserAgentStr()  */
+    protected static function getUserAgentStr() {
+        if (self::$_userAgent === NULL) {
+            self::initUserAgent();
+        }
+        if (self::$_userAgentStr) {
+            return self::$_userAgentStr;
+        }
+        $arrTemp = array();
+        foreach (self::$_userAgent as $key => $val) {
+            if ($val) {
+                $arrTemp[] = "{$key}/{$val}";
+            } else {
+                $arrTemp[] = "{$key}";
+            }
+        }
+        $strRet = "Mozilla/4.0";
+        if ($arrTemp) {
+            $strRet.= " (".join("; ", $arrTemp).")";
+        }
+        return (self::$_userAgentStr = $strRet);
+    }
+    /* }}} */
+
     /* {{{ protected function __construct()  */
     protected function __construct() {
-
+        parent::__construct();
     }
     /* }}} */
 
@@ -66,7 +114,7 @@ abstract class Agent8_Abstract {
             CURLOPT_HEADER          => FALSE,        // don't return headers
             CURLOPT_FOLLOWLOCATION  => FALSE,        // follow redirects
             CURLOPT_ENCODING        => "",           // handle all encodings
-            CURLOPT_USERAGENT       => "Mozilla/4.0 (Agent8_Client/1.0; PHP/".PHP_VERSION."; Dobuilder)",
+            CURLOPT_USERAGENT       => self::getUserAgentStr(),
             CURLOPT_AUTOREFERER     => FALSE,        // set no referer on redirect
             CURLOPT_CONNECTTIMEOUT  => 3,            // timeout on connect
             CURLOPT_TIMEOUT         => 10,           // timeout on response

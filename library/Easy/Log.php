@@ -50,7 +50,8 @@ class Easy_Log extends Easy_Singleton {
         $this->_intMaxline  = $objConfig->get("log.maxline");
         $this->_bolWf       = $objConfig->get("log.sep_wf");
         $strDir             = $objConfig->get("log.directory");
-        $strFile            = date("Ymd").".log";
+        $strFile            = //date("Ymd").".log";
+                              "app.log";
         $this->_strFile     = rtrim($strDir, "/") . "/" . ltrim($strFile, "/");
     }
     /* }}} */

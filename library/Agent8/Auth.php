@@ -44,6 +44,29 @@ class Agent8_Auth extends Agent8_Abstract {
         
     }
     /* }}} */
+    
+    /* {{{ public function authFBUser($fbAccessToken)  */
+    public function authFBUser($fbAccessToken) {
+
+        $arrRet = array(
+            "code" => 0,
+            "token" => "",
+        );
+
+        $arrData = array(
+            "fbAccessToken" => $fbAccessToken,
+        );
+        
+        $strBody = $this->_post($this->_getUrl(__FUNCTION__."?deviceId=doBuilder"), $arrData);
+
+        $arrTemp = explode(",", $strBody);
+        $arrTemp && ($arrRet["code"] = array_shift($arrTemp));
+        $arrTemp && ($arrRet["token"] = array_shift($arrTemp));
+
+        return $arrRet;
+        
+    }
+    /* }}} */
 
     /* {{{ public function setUserAuth($username, $password, $email, ... */
     /**

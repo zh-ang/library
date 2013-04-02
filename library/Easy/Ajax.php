@@ -72,7 +72,7 @@ class Easy_Ajax {
         if (empty($arrRet["error"])) {
             unset($arrRet["error"]);
         }
-        if (empty($arrRet["result"])) {
+        if ($arrRet["result"] === NULL) {
             unset($arrRet["result"]);
         }
         return $arrRet;

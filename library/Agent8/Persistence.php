@@ -87,5 +87,17 @@ class Agent8_Persistence extends Agent8_Abstract {
     }
     /* }}} */
 
+    /* {{{ public function getUser($token)  */
+    public function getUser($token) {
+
+        $arrData = array( "userName"  => $token, );
+        
+        $strBody = $this->_get($this->_getUrl(__FUNCTION__), $arrData);
+
+        return json_decode($strBody, TRUE);
+        
+    }
+    /* }}} */
+
 }
 

@@ -80,6 +80,35 @@ class Agent8_Configuration extends Agent8_Abstract {
     }
     /* }}} */
 
+    /* {{{ public function importConnection(array $data)  */
+    public function importConnection(array $data) {
+
+        $strBody = json_encode($data);
+        $strRes = $this->_post($this->_getUrl(__FUNCTION__), $strBody);
+        $arrTemp = json_decode($strRes, TRUE);
+
+        if ($arrTemp && $arrTemp["status"] == 0) {
+            return $arrTemp["id"];
+        } else {
+            Easy_Log::warning("Operation failed", $arrTemp);
+            throw new Agent8_Exception("Operation failed");
+        }
+        
+    }
+    /* }}} */
+
+    /* {{{ public function importConnectionEx($id, $name, $displayOrder)  */
+    public function importConnectionEx($id, $name, $displayOrder) {
+
+        return $this->importConnection(array(
+            "id"            => $id,
+            "name"          => $name,
+            "displayOrder"  => $displayOrder,
+        ));
+
+    }
+    /* }}} */
+
     /* {{{ public function updateConnection(array $data)  */
     public function updateConnection(array $data) {
 
@@ -99,6 +128,13 @@ class Agent8_Configuration extends Agent8_Abstract {
             "displayOrder"  => $displayOrder,
         ));
         
+    }
+    /* }}} */
+
+    /* {{{ public function deleteConnection($id)  */
+    public function deleteConnection($id) {
+        $strRes = $this->_get($this->_getUrl(__FUNCTION__), array("connectionId" => $id));
+        return json_decode($strRes, TRUE);
     }
     /* }}} */
 
@@ -153,6 +189,37 @@ class Agent8_Configuration extends Agent8_Abstract {
     }
     /* }}} */
 
+    /* {{{ public function importSourceGroup(array $data)  */
+    public function importSourceGroup(array $data) {
+
+        $strBody = json_encode($data);
+        $strRes = $this->_post($this->_getUrl(__FUNCTION__), $strBody);
+        $arrTemp = json_decode($strRes, TRUE);
+
+        if ($arrTemp && $arrTemp["status"] == 0) {
+            return $arrTemp["id"];
+        } else {
+            Easy_Log::warning("Operation failed", $arrTemp);
+            throw new Agent8_Exception("Operation failed");
+        }
+
+    }
+    /* }}} */
+
+    /* {{{ public function importSourceGroupEx($id, $name, array $sourceList, $groupType = 0, $required = TRUE)  */
+    public function importSourceGroupEx($id, $name, array $sourceList, $groupType = 0, $required = TRUE) {
+
+        $this->importSourceGroup(array(
+            "id"            => $id,
+            "name"          => $name,
+            "groupType"     => $groupType,
+            "sourceList"    => array_unique(array_map("intval", $sourceList)),
+            "required"      => $required ? 1 : 0,
+        ));
+
+    }
+    /* }}} */
+
     /* {{{ public function updateSourceGroup(array $data)  */
     public function updateSourceGroup(array $data) {
 
@@ -174,6 +241,13 @@ class Agent8_Configuration extends Agent8_Abstract {
             "required"      => $required ? 1 : 0,
         ));
 
+    }
+    /* }}} */
+
+    /* {{{ public function deleteSourceGroup($id)  */
+    public function deleteSourceGroup($id) {
+        $strRes = $this->_get($this->_getUrl(__FUNCTION__), array("sourceGroupId" => $id));
+        return json_decode($strRes, TRUE);
     }
     /* }}} */
 
@@ -227,6 +301,36 @@ class Agent8_Configuration extends Agent8_Abstract {
     }
     /* }}} */
 
+    /* {{{ public function importTrigger(array $data)  */
+    public function importTrigger(array $data) {
+
+        $strBody = json_encode($data);
+        $strRes = $this->_post($this->_getUrl(__FUNCTION__), $strBody);
+        $arrTemp = json_decode($strRes, TRUE);
+
+        if ($arrTemp && $arrTemp["status"] == 0) {
+            return $arrTemp["id"];
+        } else {
+            Easy_Log::warning("Operation failed", $arrTemp);
+            throw new Agent8_Exception("Operation failed");
+        }
+
+    }
+    /* }}} */
+
+    /* {{{ public function importTriggerEx($id, $name, array $sourceGroupIds, array $variables = array())  */
+    public function importTriggerEx($id, $name, array $sourceGroupIds, array $variables = array()) {
+
+        $this->importTrigger(array(
+            "id"            => $id,
+            "name"          => $name,
+            "sourceGroupIds"=> array_unique(array_map("intval", $sourceGroupIds)),
+            "variables"     => array_unique($variables),
+        ));
+
+    }
+    /* }}} */
+
     /* {{{ public function updateTrigger(array $data)  */
     public function updateTrigger(array $data) {
 
@@ -247,6 +351,13 @@ class Agent8_Configuration extends Agent8_Abstract {
             "variables"     => array_unique($variables),
         ));
 
+    }
+    /* }}} */
+
+    /* {{{ public function deleteTrigger($id)  */
+    public function deleteTrigger($id) {
+        $strRes = $this->_get($this->_getUrl(__FUNCTION__), array("triggerId" => $id));
+        return json_decode($strRes, TRUE);
     }
     /* }}} */
 
@@ -302,6 +413,38 @@ class Agent8_Configuration extends Agent8_Abstract {
     }
     /* }}} */
 
+    /* {{{ public function importAction(array $data)  */
+    public function importAction(array $data) {
+
+        $strBody = json_encode($data);
+        $strRes = $this->_post($this->_getUrl(__FUNCTION__), $strBody);
+        $arrTemp = json_decode($strRes, TRUE);
+
+        if ($arrTemp && $arrTemp["status"] == 0) {
+            return $arrTemp["id"];
+        } else {
+            Easy_Log::warning("Operation failed", $arrTemp);
+            throw new Agent8_Exception("Operation failed");
+        }
+
+    }
+    /* }}} */
+
+    /* {{{ public function importActionEx($id, $displayName, $methodName, $sourceGroupId, $executionType, array $parameters)  */
+    public function importActionEx($id, $displayName, $methodName, $sourceGroupId, $executionType, array $parameters) {
+
+        $this->importAction(array(
+            "id"            => $id,
+            "displayName"   => $displayName,
+            "methodName"    => $methodName,
+            "sourceGroupId" => $sourceGroupId,
+            "executionType" => $executionType,
+            "parameters"    => $parameters,
+        ));
+
+    }
+    /* }}} */
+
     /* {{{ public function updateAction(array $data)  */
     public function updateAction(array $data) {
 
@@ -324,6 +467,13 @@ class Agent8_Configuration extends Agent8_Abstract {
             "parameters"    => $parameters,
         ));
 
+    }
+    /* }}} */
+
+    /* {{{ public function deleteAction($id)  */
+    public function deleteAction($id) {
+        $strRes = $this->_get($this->_getUrl(__FUNCTION__), array("actionId" => $id));
+        return json_decode($strRes, TRUE);
     }
     /* }}} */
 
@@ -377,7 +527,8 @@ class Agent8_Configuration extends Agent8_Abstract {
             $appVersion, array $titles, $subTitle, $deviceSensitive, $pushNtfMessage, $pushNtfEventName,
             $owner, $creator, $groupId, $displayName, $maxVisibleCount, $onDisplay, $displayOrder,
             $connections, $description, $weight, $defaultEnable, $needsPreferences, $screenTitle,
-            $reportName, $sourceList, $fbShareText, $twitterShareText, $timeSaved, $state, $markup
+            $reportName, $sourceList, $fbShareText, $twitterShareText, $timeSaved, $state, $markup //,
+//            $completeStateSubTitle, $scheduleStateSubTitle, $variableMap, $parameters
             ) {
 
 
@@ -412,6 +563,74 @@ class Agent8_Configuration extends Agent8_Abstract {
             "timeSaved"         => $timeSaved,
             "state"             => $state,
             "markup"            => $markup,
+            // "completeStateSubTitle" => $completeStateSubTitle,
+            // "scheduleStateSubTitle" => $scheduleStateSubTitle,
+        ));
+
+    }
+    /* }}} */
+
+    /* {{{ public function importDoDefinition(array $data)  */
+    public function importDoDefinition(array $data) {
+
+        $strBody = json_encode($data);
+        $strRes = $this->_post($this->_getUrl(__FUNCTION__), $strBody);
+        $arrTemp = json_decode($strRes, TRUE);
+
+        if ($arrTemp && $arrTemp["status"] == 0) {
+            return $arrTemp["id"];
+        } else {
+            Easy_Log::warning("Operation failed", $arrTemp);
+            throw new Agent8_Exception("Operation failed");
+        }
+
+    }
+    /* }}} */
+
+    /* {{{ public function importDoDefinitionEx($doId, $triggerId, array $actionIds, ... */
+    public function importDoDefinitionEx($doId, $triggerId, array $actionIds, $lastUpdateTime,
+            $appVersion, array $titles, $subTitle, $deviceSensitive, $pushNtfMessage, $pushNtfEventName,
+            $owner, $creator, $groupId, $displayName, $maxVisibleCount, $onDisplay, $displayOrder,
+            $connections, $description, $weight, $defaultEnable, $needsPreferences, $screenTitle,
+            $reportName, $sourceList, $fbShareText, $twitterShareText, $timeSaved, $state, $markup,
+            $completeStateSubTitle, $scheduleStateSubTitle, $variableMap, $permissions
+            ) {
+
+        return $this->importDoDefinition(array(
+            "doId"              => $doId,
+            "triggerId"         => $triggerId,
+            "actionIds"         => $actionIds,
+            "lastUpdateTime"    => $lastUpdateTime,
+            "appVersion"        => $appVersion,
+            "titles"            => $titles,
+            "subTitle"          => $subTitle,
+            "deviceSensitive"   => $deviceSensitive,
+            "pushNtfMessage"    => $pushNtfMessage,
+            "pushNtfEventName"  => $pushNtfEventName,
+            "owner"             => $owner,
+            "creator"           => $creator,
+            "groupId"           => $groupId,
+            "displayName"       => $displayName,
+            "maxVisibleCount"   => $maxVisibleCount,
+            "onDisplay"         => $onDisplay,
+            "displayOrder"      => $displayOrder,
+            "connections"       => $connections,
+            "description"       => $description,
+            "weight"            => $weight,
+            "defaultEnable"     => $defaultEnable,
+            "needsPreferences"  => $needsPreferences,
+            "screenTitle"       => $screenTitle,
+            "reportName"        => $reportName,
+            "sourceList"        => $sourceList,
+            "fbShareText"       => $fbShareText,
+            "twitterShareText"  => $twitterShareText,
+            "timeSaved"         => $timeSaved,
+            "state"             => $state,
+            "markup"            => $markup,
+            "completeStateSubTitle" => $completeStateSubTitle,
+            "scheduleStateSubTitle" => $scheduleStateSubTitle,
+            "variableMap"       => $variableMap,
+            "permissions"       => $permissions,
         ));
 
     }
@@ -433,7 +652,7 @@ class Agent8_Configuration extends Agent8_Abstract {
             $owner, $creator, $groupId, $displayName, $maxVisibleCount, $onDisplay, $displayOrder,
             $connections, $description, $weight, $defaultEnable, $needsPreferences, $screenTitle,
             $reportName, $sourceList, $fbShareText, $twitterShareText, $timeSaved, $state, $markup,
-            $completeStateSubTitle, $scheduleStateSubTitle
+            $completeStateSubTitle, $scheduleStateSubTitle, $variableMap, $permissions
             ) {
 
         return $this->updateDoDefinition(array(
@@ -469,8 +688,17 @@ class Agent8_Configuration extends Agent8_Abstract {
             "markup"            => $markup,
             "completeStateSubTitle" => $completeStateSubTitle,
             "scheduleStateSubTitle" => $scheduleStateSubTitle,
+            "variableMap"       => $variableMap,
+            "permissions"       => $permissions,
         ));
 
+    }
+    /* }}} */
+
+    /* {{{ public function deleteDoDefinition($id)  */
+    public function deleteDoDefinition($id) {
+        $strRes = $this->_get($this->_getUrl(__FUNCTION__), array("doId" => $id));
+        return json_decode($strRes, TRUE);
     }
     /* }}} */
 

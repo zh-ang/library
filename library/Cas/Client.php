@@ -283,16 +283,16 @@ class Cas_Client {
     }
     /* }}} */
 
-    /* {{{ public function logout()  */
-    public function logout() {
+    /* {{{ public function logout($strRefer)  */
+    public function logout($strRefer) {
 
         if (empty($this->_info)) {
             return FALSE;
         }
 
-        $strToken = $this->_info["token"];
         $arrParam = array(
             "userid"    => $this->_info["user"]["userId"],
+            "refer"     => $strRefer,
         );
         $this->_removeCookie();
         $this->redirect("logout", $arrParam);

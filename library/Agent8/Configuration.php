@@ -133,7 +133,7 @@ class Agent8_Configuration extends Agent8_Abstract {
 
     /* {{{ public function deleteConnection($id)  */
     public function deleteConnection($id) {
-        $strRes = $this->_get($this->_getUrl(__FUNCTION__), array("connectionId" => $id));
+        $strRes = $this->_exec(self::DEL, $this->_getUrl(__FUNCTION__), array("connectionId" => $id));
         return json_decode($strRes, TRUE);
     }
     /* }}} */
@@ -246,7 +246,7 @@ class Agent8_Configuration extends Agent8_Abstract {
 
     /* {{{ public function deleteSourceGroup($id)  */
     public function deleteSourceGroup($id) {
-        $strRes = $this->_get($this->_getUrl(__FUNCTION__), array("sourceGroupId" => $id));
+        $strRes = $this->_exec(self::DEL, $this->_getUrl(__FUNCTION__), array("sourceGroupId" => $id));
         return json_decode($strRes, TRUE);
     }
     /* }}} */
@@ -356,7 +356,7 @@ class Agent8_Configuration extends Agent8_Abstract {
 
     /* {{{ public function deleteTrigger($id)  */
     public function deleteTrigger($id) {
-        $strRes = $this->_get($this->_getUrl(__FUNCTION__), array("triggerId" => $id));
+        $strRes = $this->_exec(self::DEL, $this->_getUrl(__FUNCTION__), array("triggerId" => $id));
         return json_decode($strRes, TRUE);
     }
     /* }}} */
@@ -472,7 +472,7 @@ class Agent8_Configuration extends Agent8_Abstract {
 
     /* {{{ public function deleteAction($id)  */
     public function deleteAction($id) {
-        $strRes = $this->_get($this->_getUrl(__FUNCTION__), array("actionId" => $id));
+        $strRes = $this->_exec(self::DEL, $this->_getUrl(__FUNCTION__), array("actionId" => $id));
         return json_decode($strRes, TRUE);
     }
     /* }}} */
@@ -697,7 +697,7 @@ class Agent8_Configuration extends Agent8_Abstract {
 
     /* {{{ public function deleteDoDefinition($id)  */
     public function deleteDoDefinition($id) {
-        $strRes = $this->_get($this->_getUrl(__FUNCTION__), array("doId" => $id));
+        $strRes = $this->_exec(self::DEL, $this->_getUrl(__FUNCTION__), array("doId" => $id));
         return json_decode($strRes, TRUE);
     }
     /* }}} */

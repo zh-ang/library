@@ -17,8 +17,9 @@ abstract class Agent8_Abstract extends Easy_Singleton {
 
     const GET   = "GET";
     const POST  = "POST";
+    const DEL   = "DELETE";
 
-    const VERSION   = "1.0";
+    const VERSION   = "1.1";
 
     protected static $_serviceUri = "";
     protected static $_userAgent = NULL;
@@ -158,6 +159,18 @@ abstract class Agent8_Abstract extends Easy_Singleton {
                 CURLOPT_POST    => TRUE,
                 CURLOPT_POSTFIELDS => $strData,
             ));
+        } elseIF (strcasecmp($method, self::DEL) == 0) {
+            if ($strData) {
+                $strUrl = $url . ( strpos($url, "?") ? "&" : "?" ) . $strData;
+            } else {
+                $strUrl = $url;
+            }
+
+            curl_setopt_array($ch, array(
+                CURLOPT_CUSTOMREQUEST   => "DELETE",
+                CURLOPT_URL             => $strUrl,
+            ));
+
         } else {
             throw new Agent8_Exception("unrecognized method");
         }

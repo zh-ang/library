@@ -1,0 +1,46 @@
+#!/bin/bash
+
+#HOST=$HOSTNAME
+HOST="ec2-176-34-42-150.ap-northeast-1.compute.amazonaws.com";
+
+function print_info () {
+    DIRNAME=$(dirname "$1");
+    BASENAME=$(basename "$1");
+    DIR=$(cd "$DIRNAME"; pwd);
+    FULLPATH="$DIR/$BASENAME";
+    PWDPATH="$FULLPATH";
+    if [ -d "$FULLPATH" ]; then
+        PWDPATH="$FULLPATH/";
+    fi
+    COLOR="";
+    COLOR=$'\E[01;31m';
+    if [ ! -e $FULLPATH ]; then
+        echo -n $'\E[01;31m';
+    fi
+    echo $PWDPATH;
+    DISPPATH=${PWDPATH/$HOME/"~"}
+    echo "$USER@$HOST:$DISPPATH"
+    if [ ${DISPPATH:0:6} == "~/tmp/" ]; then
+        echo "http://$HOST:8367/${DISPPATH:6}"
+    fi
+    if [ ${DISPPATH:0:6} == "~/www/" ]; then
+        echo "http://$HOST:8080/${DISPPATH:6}"
+    fi
+    if [ ! -e $FULLPATH ]; then
+        echo -n $'\E[0m';
+    fi
+}
+
+LINE=$'\E[34m------------------------------------------------------------\E[0m'
+echo "$LINE";
+
+if [ $# -gt 0 ]; then
+    for arg in "$@"
+    do
+        print_info "$arg";
+        echo "$LINE";
+    done
+else
+    print_info "$PWD";
+    echo "$LINE";
+fi

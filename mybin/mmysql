@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/usr/bin/mysql -uroot -S /home/jay/local/mysql-5.1.66/mysql.sock -D do $@

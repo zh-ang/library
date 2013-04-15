@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+if [ $# -eq 1 ]; then
+  FILENAME="$1"
+else
+  FILENAME="$(date +%Y%m%d).log"
+fi
+
+tail -f $FILENAME \
+| sed -su $'s/^\\(FATAL:\\)/\e[41m\\1\e[0m/' \
+| sed -su $'s/^\\(WARNING:\\)/\e[43m\\1\e[0m/' \
+| sed -su $'s/^\\(NOTICE:\\)/\e[42m\\1\e[0m/' \
+| sed -su $'s/^\\(TRACE:\\)/\e[44m\\1\e[0m/' \
+| sed -su $'s/^\\(DEBUG:\\)/\e[45m\\1\e[0m/'

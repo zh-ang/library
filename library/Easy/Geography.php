@@ -2,8 +2,8 @@
 
 class Easy_Geography {
 
-    // const EARTH_RADIUS = 6378.137; // in KM
-    const EARTH_RADIUS = 3963.1906; // in Mile
+    const EARTH_RADIUS = 6378.137; // in KM
+    // const EARTH_RADIUS = 3963.1906; // in Mile
 
     /* {{{ protected static function _rad($d)  */
     protected static function _rad($d) {

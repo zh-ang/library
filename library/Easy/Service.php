@@ -2,10 +2,10 @@
 /**
  * Easy_Service
  * 
- * @package easilydo
- * @author Jay Zhang <jay@easilydo.com>
+ * @package common
+ * @author Jay Zhang <i@zh-ang.com>
  * @file Easy/Client.php
- * @copyright Copyright 2012 Easilydo Inc. 
+ * @copyright Copyright 2013 All right reserved.
  * @version 1.0
  * @since 2012-09-12
  * 
@@ -63,8 +63,8 @@ class Easy_Service {
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noindex, nofollow" />
-    <meta name="copyright" content="Easilydo Service {$strVersion}" />
-    <title>{$strClass} - Easilydo Service</title>
+    <meta name="copyright" content="JsonRPC Service {$strVersion}" />
+    <title>{$strClass} - JsonRPC Service</title>
     <style>
 body { margin:0; background-color:#F8F8F8; }
 h1 { margin:0; font:bold 28px Verdana,Arial; background:#99c; padding:12px 10px; border-bottom:4px solid #669; box-shadow:0 1px 4px #bbb; text-shadow:3px 3px 7px #cce;}
@@ -107,7 +107,7 @@ HTML;
 
     echo <<<HTML
     <h6 id="yar-footer">
-      <i>Powered by <a href="http://pecl.php.net/yar">Easilydo Service {$strVersion}</a></i>
+      <i>Powered by <a href="http://pecl.php.net/yar">JsonRPC Service {$strVersion}</a>.</i>
     </div>
   </body>
 </html>

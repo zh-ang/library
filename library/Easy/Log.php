@@ -50,8 +50,8 @@ class Easy_Log extends Easy_Singleton {
         $this->_intMaxline  = $objConfig->get("log.maxline");
         $this->_bolWf       = $objConfig->get("log.sep_wf");
         $strDir             = $objConfig->get("log.directory");
-        $strFile            = //date("Ymd").".log";
-                              "app.log";
+        $strFile            = date("Ymd").".log";
+                              // "app.log";
         $this->_strFile     = rtrim($strDir, "/") . "/" . ltrim($strFile, "/");
     }
     /* }}} */
@@ -97,21 +97,21 @@ class Easy_Log extends Easy_Singleton {
 
     /* {{{ public function writeLog($intLevel, $strMsg, $mixArg = NULL, $intDepth = 0 ) */
     public function writeLog($intLevel, $strMsg, $mixArg = NULL, $intDepth = 0 ) {
-        if (!isset(self::$arrLogLevels[$intLevel])) {
-            return FALSE;
-        }
-        
-        if (is_string($intLevel)) {
-            $strLevel = $intLevel;
-            $intLevel = 0;
-        } else {
-            $intLevel = intval($intLevel);
-            if ($intLevel & $this->_intMask == 0) {
+
+        if (is_int($intLevel)) {
+            if (!isset(self::$arrLogLevels[$intLevel])) {
+                return FALSE;
+            }
+            if (($intLevel & $this->_intMask) == 0) {
                 return TRUE;
             }
             $strLevel = self::$arrLogLevels[$intLevel];
+        } elseif (is_string($intLevel)) {
+            $strLevel = $intLevel;
+            $intLevel = 0;
+        } else {
+            return FALSE;
         }
-
 
         $strMsg = strval($strMsg);
 
